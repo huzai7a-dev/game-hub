@@ -1,13 +1,27 @@
 
+import { Grid, GridItem, Show } from '@chakra-ui/react'
 import './App.css'
-import { Button } from '@chakra-ui/react'
 
 function App() {
 
   return (
-    <div>
-      <Button colorScheme='blue'>Button</Button>
-    </div>
+    <Grid templateAreas={{
+      base: `"nav" "main"`,
+      lg: `"nav nav" "aside main"`
+    }}>
+      <GridItem bg="red" area="nav">
+        nav
+      </GridItem>
+      <Show above='lg'>
+        <GridItem bg="blue" area="aside">
+            aside
+        </GridItem>
+      </Show>
+
+      <GridItem bg="green" area="main">
+        Main
+      </GridItem>
+    </Grid>
   )
 }
 
