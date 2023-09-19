@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
-import { CanceledError } from "axios";
+import { AxiosRequestConfig, CanceledError } from "axios";
 
 
 
@@ -9,7 +9,8 @@ interface FecthResponse<T> {
     results: T[]
 }
 
-const useData = <T>(endpoint:string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useData = <T>(endpoint:string,config?:AxiosRequestConfig,deps?:any[]) => {
     const [data, setData] = useState<T[]>([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ const useData = <T>(endpoint:string) => {
     useEffect(() => {
         const controller = new AbortController()
         setLoading(true)
-        apiClient.get<FecthResponse<T>>(endpoint, {signal:controller.signal})
+        apiClient.get<FecthResponse<T>>(endpoint, {signal:controller.signal,...config})
             .then((res) => {
                 setData(res.data.results)
                 setLoading(false)
@@ -29,7 +30,8 @@ const useData = <T>(endpoint:string) => {
             })
 
         return ()=> controller.abort()
-    }, [endpoint])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, deps ? [...deps] : [])
 
     return {data,errorMessage,isLoading}
 }
