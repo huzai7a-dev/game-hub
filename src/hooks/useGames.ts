@@ -25,20 +25,26 @@ interface FecthGameResponse {
 const useGames = () => {
     const [games, setGames] = useState<Game[]>([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         const controller = new AbortController()
+        setLoading(true)
         apiClient.get<FecthGameResponse>('/games', {signal:controller.signal})
-            .then((res) => setGames(res.data.results))
+            .then((res) => {
+                setGames(res.data.results)
+                setLoading(false)
+            })
             .catch((err) => {
                 if (err instanceof CanceledError) return
                 setErrorMessage(err.message)
+                setLoading(false)
             })
 
         return ()=> controller.abort()
     }, [])
 
-    return {games,errorMessage}
+    return {games,errorMessage,isLoading}
 }
 
 export default useGames;
