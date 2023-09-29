@@ -9,9 +9,9 @@ export interface Platform {
 
 const apiClient = new APIClient('/platforms/lists/parents');
 
-const usePlatform = () => useQuery({
+const usePlatforms = () => useQuery({
     queryKey: ['platforms'],
     queryFn: apiClient.getAll<Platform>
 });
 
-export default usePlatform;
+export default usePlatforms;

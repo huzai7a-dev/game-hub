@@ -1,9 +1,9 @@
 import { Button, HStack, Heading, Image, List, ListItem } from "@chakra-ui/react";
-import useGenres, { Genre } from "../hooks/useGenres";
+import useGenres from "../hooks/useGenres";
 import GenreSkeleton from "./GenreSkeleton";
 
 interface Props {
-    onSelectGenre: (genre:Genre)=> void
+    onSelectGenre: (genreId:number)=> void
 }
 
 const skeletons = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -27,7 +27,7 @@ const GenreList = ({ onSelectGenre }:Props) => {
                                 objectFit={'cover'}
                                 />
                             <Button
-                                onClick={() => onSelectGenre(genre)}
+                                onClick={() => onSelectGenre(genre.id)}
                                 variant={'link'}
                                 fontSize={'lg'}
                                 whiteSpace={'normal'}

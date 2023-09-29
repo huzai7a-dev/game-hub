@@ -19,13 +19,15 @@ const GameGrid = ({ gameQuery }: Props) => {
 
     if (error) return <Text>{error.message}</Text>
 
-    const fetchedGamesCount = games?.pages.reduce((total, page) => total + page.results.length, 0);
+    const fetchedGamesCount = games?.pages.reduce(
+        (total, page) => total + page.results.length, 0);
+    
     return (
             <InfiniteScroll
                 hasMore={!!hasNextPage}
                 next={() => fetchNextPage()}
                 dataLength={fetchedGamesCount || 0}
-                loader={<Spinner/>}
+                loader={<Spinner marginX={'auto'}/>}
             >
                 <SimpleGrid
                     columns={{ sm: 1, md: 2, lg: 3 }}
