@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import APIClient from "../services/api-client";
+import APIClient, { FecthResponse } from "../services/api-client";
 
 
 const apiClient = new APIClient('/genres');
@@ -15,12 +15,10 @@ export interface Genre {
     image_background: string
 }
 
-const useGenres = () => useQuery<Genre[], Error>(
-    {
-        queryKey: ['genres'],
-        queryFn: apiClient.getAll<Genre>,
-        staleTime: Infinity
-    }
-)
+const useGenres = () =>
+    useQuery<FecthResponse<Genre>,Error>({
+            queryKey: ['genres'],
+            queryFn: apiClient.getAll<Genre>
+    });
 
 export default useGenres;
